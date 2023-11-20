@@ -1,0 +1,27 @@
+{
+  "name": "aoc-ts",
+  "version": "0.1.0",
+  "description": "Starter kit des champions pour réussir son AoC avec TypeScript",
+  "main": "src/index.ts",
+  "scripts": {
+    "bench": "vitest bench",
+    "dev": "nodemon -r dotenv/config src/index.ts -w",
+    "test": "vitest"
+  },
+  "author": "Vivian Sarazin (Zenika)",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.9.1",
+    "@typescript-eslint/eslint-plugin": "^6.11.0",
+    "@typescript-eslint/parser": "^6.11.0",
+    "eslint": "^8.54.0",
+    "nodemon": "^3.0.1",
+    "ts-node": "^10.9.1",
+    "tslib": "^2.6.2",
+    "typescript": "^5.2.2",
+    "vitest": "^0.34.6"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1"
+  }
+}
