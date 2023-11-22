@@ -1,16 +1,31 @@
 import { promises } from "fs";
-import { filePath } from "../../constants";
-import { fetchPuzzle } from "./fetch";
-import { isPuzzleFetched, writePuzzle } from "./write";
+import { puzzleFile } from "../../constants";
+import { fetchInstructions, fetchPuzzle } from "./fetch";
+import {
+  createDirectories,
+  isChallengeFetched,
+  writeInstructions,
+  writePuzzle,
+} from "./write";
 
 export async function readPuzzle() {
-  const file = await promises.readFile(filePath, "utf-8");
+  const file = await promises.readFile(puzzleFile, "utf-8");
   return file.split("\n").slice(0, -1);
 }
 
-export async function fetchAndWritePuzzle() {
-  if (!isPuzzleFetched()) {
-    const puzzle = await fetchPuzzle();
+export async function fetchAndWriteChallenge() {
+  if (isChallengeFetched()) {
+    return;
+  }
+  createDirectories();
+  try {
+    const [puzzle, instructions] = await Promise.all([
+      fetchPuzzle(),
+      fetchInstructions(),
+    ]);
     if (puzzle) writePuzzle(puzzle);
+    if (instructions) writeInstructions(instructions);
+  } catch (error) {
+    console.error(error);
   }
 }

@@ -1,4 +1,4 @@
-import { fetchAndWritePuzzle, readPuzzle } from "./libs";
+import { fetchAndWriteChallenge, readPuzzle } from "./libs";
 
 /**
  * Fonction principale
@@ -6,7 +6,7 @@ import { fetchAndWritePuzzle, readPuzzle } from "./libs";
  * Dans le cas contraire, téléchargement et écriture du puzzle
  */
 async function main() {
-  await fetchAndWritePuzzle();
+  await fetchAndWriteChallenge();
   const data = await readPuzzle();
   solver(data);
 }

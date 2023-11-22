@@ -1,5 +1,11 @@
 import { existsSync, mkdirSync, writeFile } from "fs";
-import { filePath, inputsFolder, year } from "../../constants";
+import { NodeHtmlMarkdown } from "node-html-markdown";
+import {
+  puzzleFile,
+  inputsFolder,
+  year,
+  instructionsFile,
+} from "../../constants";
 
 function createDirectoryIfNotExists(path: string) {
   if (!existsSync(path)) {
@@ -7,18 +13,30 @@ function createDirectoryIfNotExists(path: string) {
   }
 }
 
-export function isPuzzleFetched() {
-  return existsSync(filePath);
+export function isChallengeFetched() {
+  return existsSync(puzzleFile) && existsSync(instructionsFile);
+}
+
+export function createDirectories() {
+  createDirectoryIfNotExists(`${inputsFolder}`);
+  createDirectoryIfNotExists(`${inputsFolder}/${year}`);
 }
 
 export function writePuzzle(data: string) {
-  createDirectoryIfNotExists(`${inputsFolder}`);
-  createDirectoryIfNotExists(`${inputsFolder}/${year}`);
-  writeFile(filePath, data, (err) => {
+  writeFile(puzzleFile, data, (err) => {
     if (err) throw err;
     else {
-      console.log("Fichier écrit avec succès");
-      console.log("GL&HF");
+      console.log("Puzzle écrit avec succès");
+    }
+  });
+}
+
+export function writeInstructions(data: string) {
+  const markdown = NodeHtmlMarkdown.translate(data).split("##")[1];
+  writeFile(instructionsFile, markdown, (err) => {
+    if (err) throw err;
+    else {
+      console.log("Instructions écrites avec succès");
     }
   });
 }
