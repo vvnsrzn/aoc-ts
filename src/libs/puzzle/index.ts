@@ -7,6 +7,7 @@ import {
   writeInstructions,
   writePuzzle,
 } from "./write";
+import consola from "consola";
 
 export async function readPuzzle() {
   const file = await promises.readFile(puzzleFile, "utf-8");
@@ -19,6 +20,7 @@ export async function fetchAndWriteChallenge() {
   }
   createDirectories();
   try {
+    consola.start("Récupération du challenge en cours...");
     const [puzzle, instructions] = await Promise.all([
       fetchPuzzle(),
       fetchInstructions(),

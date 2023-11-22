@@ -1,10 +1,11 @@
+import consola from "consola";
 import { existsSync, mkdirSync, writeFile } from "fs";
 import { NodeHtmlMarkdown } from "node-html-markdown";
 import {
-  puzzleFile,
   inputsFolder,
-  year,
   instructionsFile,
+  puzzleFile,
+  year,
 } from "../../constants";
 
 function createDirectoryIfNotExists(path: string) {
@@ -26,7 +27,7 @@ export function writePuzzle(data: string) {
   writeFile(puzzleFile, data, (err) => {
     if (err) throw err;
     else {
-      console.log("Puzzle écrit avec succès");
+      consola.success("Puzzle écrit avec succès");
     }
   });
 }
@@ -36,7 +37,8 @@ export function writeInstructions(data: string) {
   writeFile(instructionsFile, markdown, (err) => {
     if (err) throw err;
     else {
-      console.log("Instructions écrites avec succès");
+      consola.success("Instructions écrites avec succès");
+      consola.box("🎄 Good Luck 🎅");
     }
   });
 }
