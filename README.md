@@ -17,15 +17,15 @@
 
 ## How to?
 
-`$ npm run dev`
+`$ pnpm run dev`
 
 Cette commande va vérifier si le puzzle est bien chargé dans le cas contraire, elle va télécharger et écrire le puzzle dans un dossier `inputs`.
 
-`$ npm run test`
+`$ pnpm run test`
 
 Pour réaliser le challenge avec des tests unitaires, vous pouvez lancer cette commande de tests.
 
-`$ npm run bench`
+`$ pnpm run bench`
 
 Pour vérifier quelle méthode est la plus performante (voir matrix/index.bench.ts).
 
