@@ -19,7 +19,7 @@
 
 `$ pnpm run dev`
 
-Cette commande va vérifier si le puzzle est bien chargé dans le cas contraire, elle va télécharger et écrire le puzzle dans un dossier `inputs`.
+Cette commande va vérifier si le challenge est bien chargé. Dans le cas contraire, elle va télécharger et écrire le puzzle et les instructions dans un dossier `inputs`.
 
 `$ pnpm run test`
 
