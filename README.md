@@ -12,8 +12,10 @@
 
 ### Fetch and Write
 
-- [x] Fetch the Puzzle
-- [x] Write the Puzzle
+- [x] Fetch the puzzle
+- [x] Write the puzzle
+- [X] Fetch the instructions
+- [x] Write the instructions
 
 ## How to?
 
