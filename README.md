@@ -17,6 +17,11 @@
 - [X] Fetch the instructions
 - [x] Write the instructions
 
+### Matrix
+- [X] Select row
+- [X] Select column
+- [X] Sum   
+
 ## How to?
 
 `$ pnpm run dev`
