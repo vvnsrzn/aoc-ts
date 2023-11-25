@@ -2,5 +2,7 @@ import { expect, test } from "vitest";
 import { solver } from "./index";
 
 test("Is my setup OK?", () => {
-  expect(solver(["1"])).toEqual(["1", "2"]);
+  const given = ["A Y", "B X", "C Z"];
+  const res = solver(given);
+  expect(res).toEqual(12);
 });
