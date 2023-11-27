@@ -1,12 +1,14 @@
-import consola from "consola";
-import { existsSync, mkdirSync, writeFile } from "fs";
-import { NodeHtmlMarkdown } from "node-html-markdown";
 import {
   inputsFolder,
   instructionsFile,
   puzzleFile,
+  specFile,
   year,
-} from "../../constants";
+} from "@/constants";
+import consola from "consola";
+import { existsSync, mkdirSync, writeFile } from "fs";
+import jsdom from "jsdom";
+import { NodeHtmlMarkdown } from "node-html-markdown";
 
 function createDirectoryIfNotExists(path: string) {
   if (!existsSync(path)) {
@@ -24,21 +26,33 @@ export function createDirectories() {
 }
 
 export function writePuzzle(data: string) {
-  writeFile(puzzleFile, data, (err) => {
-    if (err) throw err;
-    else {
-      consola.success("Puzzle écrit avec succès");
-    }
+  writeFile(puzzleFile, data, () => {
+    consola.success("Puzzle");
   });
 }
 
 export function writeInstructions(data: string) {
-  const markdown = NodeHtmlMarkdown.translate(data).split("##")[1];
-  writeFile(instructionsFile, markdown, (err) => {
-    if (err) throw err;
-    else {
-      consola.success("Instructions écrites avec succès");
-      consola.box("🎄 Good Luck 🎅");
-    }
+  const { document } = new jsdom.JSDOM(data).window;
+  //  instructions
+  const articles = document.getElementsByTagName("article");
+  let instructions = "";
+  for (const article of articles) {
+    instructions += `\n\n\n${NodeHtmlMarkdown.translate(article.innerHTML)}`;
+  }
+  writeFile(instructionsFile, instructions, () => {
+    consola.success("Instructions");
   });
+
+  //  specs
+  const specs = document.getElementsByTagName("code");
+  for (let i = 0; i < specs.length; i++) {
+    const spec = specs[i];
+    if (spec.innerHTML.split("\n").length > 2) {
+      writeFile(specFile(i + 1), spec.innerHTML, () => {
+        consola.success(`Spec ${i + 1}`);
+      });
+    }
+  }
+
+  consola.box("🎄 Good Luck 🎅");
 }

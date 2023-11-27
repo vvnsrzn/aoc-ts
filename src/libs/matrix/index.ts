@@ -1,4 +1,4 @@
-import { computeSum } from "../math";
+import { computeSum } from "@/libs/math";
 
 export function selectMatrixRow<T>(matrix: Array<T[]>, row: number) {
   return matrix[row];

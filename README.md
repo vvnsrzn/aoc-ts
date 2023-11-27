@@ -10,12 +10,13 @@
 - [x] Sum
 - [x] Median
 
-### Fetch and Write
+### Fetch, Write and Send
 
 - [x] Fetch the puzzle
 - [x] Write the puzzle
 - [X] Fetch the instructions
 - [x] Write the instructions
+- [x] Send the response
 
 ### Matrix
 - [X] Select row
@@ -47,3 +48,5 @@ Pour récupérer le fichier directement depuis l'AoC, il faut remplir la variabl
 Si vous souhaitez faire une autre année, renseigner la variable `AOC_YEAR`, autrement ça sera l'année actuelle.
 
 Pour spécifier le jour, renseigner la variable `AOC_DAY`, autrement ça sera le jour actuel.
+
+Si vous voulez jouer le mode HxC, passer quelque chose dans la variable `AOC_HXC`.

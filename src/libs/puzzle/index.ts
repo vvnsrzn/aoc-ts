@@ -1,16 +1,17 @@
-import { promises } from "fs";
-import { puzzleFile } from "../../constants";
-import { fetchInstructions, fetchPuzzle } from "./fetch";
+import { cookie, day, puzzleFile, year } from "@/constants";
+import { fetchInstructions, fetchPuzzle } from "@/libs/puzzle/fetch";
+import consola from "consola";
+import { readFileSync } from "fs";
+import { chromium } from "playwright";
 import {
   createDirectories,
   isChallengeFetched,
   writeInstructions,
   writePuzzle,
 } from "./write";
-import consola from "consola";
 
-export async function readPuzzle() {
-  const file = await promises.readFile(puzzleFile, "utf-8");
+export function readPuzzle(path = puzzleFile) {
+  const file = readFileSync(path, "utf-8");
   return file.split("\n").slice(0, -1);
 }
 
@@ -30,4 +31,28 @@ export async function fetchAndWriteChallenge() {
   } catch (error) {
     console.error(error);
   }
+}
+
+export async function postAnswer(candidate: number) {
+  const browser = await chromium.launch({ headless: false });
+  const page = await browser.newPage();
+
+  await page.addInitScript((cookie: string) => {
+    document.cookie = cookie;
+  }, cookie);
+
+  await page.goto(`https://adventofcode.com/`);
+  await page.goto(`https://adventofcode.com/${year}/day/${day}`);
+
+  await page.getByRole("textbox").fill(String(candidate));
+  await page.getByRole("button", { name: "[Submit]" }).click();
+
+  const isSuccess = await page.isVisible("text='That's the right answer'");
+  const errorMessage = await page.getByRole("article").textContent();
+
+  if (!isSuccess) {
+    throw new Error(errorMessage!);
+  }
+
+  await page.pause();
 }
