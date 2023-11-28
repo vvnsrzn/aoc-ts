@@ -12,10 +12,9 @@
 
 ### Fetch, Write and Send
 
-- [x] Fetch the puzzle
-- [x] Write the puzzle
-- [X] Fetch the instructions
-- [x] Write the instructions
+- [x] Fetch and write the puzzle
+- [X] Fetch and write the instructions
+- [X] Fetch and write the specs
 - [x] Send the response
 
 ### Matrix
