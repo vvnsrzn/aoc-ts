@@ -4,7 +4,7 @@ import {
   puzzleFile,
   specFile,
   year,
-} from "@/constants";
+} from "../../constants";
 import consola from "consola";
 import { existsSync, mkdirSync, writeFile } from "fs";
 import jsdom from "jsdom";

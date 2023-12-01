@@ -1,4 +1,4 @@
-import { fetchAndWriteChallenge, readPuzzle } from "@/libs";
+import { computeSum, fetchAndWriteChallenge, readPuzzle } from "./libs";
 
 /**
  * Fonction principale
@@ -15,9 +15,22 @@ async function main() {
  * Fonction pour résoudre le puzzle
  * Testable dans index.spec.ts
  */
-export function solver(data: string[]) {
-  void data;
-  return 1;
+export function solver(data: string[]): number {
+  const result: number[] = [];
+  for (const dataElement of data) {
+    const element = dataElement
+      .split("")
+      .filter((e) => {
+        return parseFloat(e);
+      })
+      .map(Number);
+
+    const temp = Number([element[0], element[element.length - 1]].join(""));
+
+    result.push(temp);
+  }
+  console.log(computeSum(result));
+  return computeSum(result);
 }
 
 main();
