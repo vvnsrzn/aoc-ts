@@ -1,0 +1,40 @@
+{
+  "event": "2022",
+  "members": {
+    "1504598": {
+      "completion_day_level": {
+        "4": {
+          "2": { "get_star_ts": 1670180407, "star_index": 1063582 },
+          "1": { "star_index": 1062908, "get_star_ts": 1670180208 }
+        },
+        "5": {
+          "1": { "star_index": 1250447, "get_star_ts": 1670240966 },
+          "2": { "get_star_ts": 1670243126, "star_index": 1258402 }
+        },
+        "3": {
+          "2": { "get_star_ts": 1670175035, "star_index": 1045421 },
+          "1": { "star_index": 1043947, "get_star_ts": 1670174644 }
+        },
+        "1": {
+          "1": { "star_index": 79656, "get_star_ts": 1669889462 },
+          "2": { "get_star_ts": 1669889578, "star_index": 80118 }
+        },
+        "6": {
+          "2": { "get_star_ts": 1670323942, "star_index": 1562356 },
+          "1": { "get_star_ts": 1670323590, "star_index": 1561013 }
+        },
+        "2": {
+          "1": { "get_star_ts": 1669983417, "star_index": 410989 },
+          "2": { "get_star_ts": 1669984927, "star_index": 417014 }
+        }
+      },
+      "id": 1504598,
+      "stars": 12,
+      "local_score": 2069,
+      "global_score": 0,
+      "last_star_ts": 1670323942,
+      "name": "kauredo"
+    }
+  },
+  "owner_id": 1222761
+}
