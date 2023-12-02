@@ -92,9 +92,7 @@ export function solver(data: string[]): number {
     result.push(Number(res.join("")));
   }
 
-  console.log(result);
-  const tutu = computeSum(result);
-  return tutu;
+  return computeSum(result);
 }
 
 function newFunction(substring: string) {
