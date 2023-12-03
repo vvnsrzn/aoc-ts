@@ -1,10 +1,4 @@
-import consola from "consola";
-import {
-  computeMatrixSum,
-  computeSum,
-  fetchAndWriteChallenge,
-  readPuzzle,
-} from "./libs";
+import { computeSum, fetchAndWriteChallenge, readPuzzle } from "./libs";
 
 /**
  * Fonction principale
@@ -17,91 +11,43 @@ async function main() {
   solver(data);
 }
 
-const letters = [
-  {
-    digits: ["one", "1"],
-    number: 1,
-  },
-  {
-    digits: ["two", "2"],
-    number: 2,
-  },
-  {
-    digits: ["three", "3"],
-    number: 3,
-  },
-  {
-    digits: ["four", "4"],
-    number: 4,
-  },
-  {
-    digits: ["five", "5"],
-    number: 5,
-  },
-  {
-    digits: ["six", "6"],
-    number: 6,
-  },
-  {
-    digits: ["seven", "7"],
-    number: 7,
-  },
-  {
-    digits: ["eight", "8"],
-    number: 8,
-  },
-  {
-    digits: ["nine", "9"],
-    number: 9,
-  },
-];
+type Color = {
+  blue: number;
+  red: number;
+  green: number;
+};
 
 /**
  * Fonction pour résoudre le puzzle
  * Testable dans index.spec.ts
  */
-export function solver(data: string[]): number {
-  const result: number[] = [];
+export function solver(data: string[]) {
+  const result = [];
   for (const str of data) {
-    const res = [];
-    const leftCandidate = [];
-    const rightCandidate = [];
-    const array = str.split("");
-    for (let i = 0; i < array.length; i++) {
-      const element = array[i];
-      leftCandidate.push(element);
-      const substring = leftCandidate.join("");
-      const left = newFunction(substring)!;
-      if (left) {
-        res.push(left);
-        break;
+    const gamePoints = {
+      blue: 0,
+      red: 0,
+      green: 0,
+    } satisfies Color;
+    const [, right] = str.split(":");
+    const sets = right.split(";").map((el) => el.split(","));
+    for (const set of sets) {
+      const data: {
+        [x: keyof Color]: number;
+      }[] = set.map((el) => {
+        const [count, color] = el.trimStart().split(" ");
+        return { [color]: Number(count) };
+      });
+      for (const element of data) {
+        const [[color, value]] = Object.entries(element);
+        if (gamePoints[color] < value) {
+          gamePoints[color] = value;
+        }
       }
     }
-
-    for (let j = array.length - 1; j >= 0; j--) {
-      const element = array[j];
-      rightCandidate.push(element);
-      const substring = rightCandidate.join("").split("").reverse().join("");
-      const right = newFunction(substring)!;
-      if (right) {
-        res.push(right);
-        break;
-      }
-    }
-
-    result.push(Number(res.join("")));
+    result.push(Object.values(gamePoints).reduce((prev, curr) => prev * curr));
   }
-
   return computeSum(result);
 }
 
-function newFunction(substring: string) {
-  for (const { digits, number } of letters) {
-    for (const digit of digits) {
-      if (substring.includes(digit)) {
-        return number;
-      }
-    }
-  }
-}
 // main();

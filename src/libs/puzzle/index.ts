@@ -47,7 +47,7 @@ export async function postAnswer(candidate: number) {
   await page.getByRole("textbox").fill(String(candidate));
   await page.getByRole("button", { name: "[Submit]" }).click();
 
-  const isSuccess = await page.isVisible("text='That's the right answer'");
+  const isSuccess = await page.isVisible("text='That's the right answer!'");
   const errorMessage = await page.getByRole("article").textContent();
 
   if (!isSuccess) {
