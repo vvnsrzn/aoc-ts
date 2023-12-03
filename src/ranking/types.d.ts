@@ -9,21 +9,13 @@ export interface Members {
 }
 
 export interface Member {
-  completion_day_level: CompletionDayLevel;
+  completion_day_level: unknown;
   id: number;
   stars: number;
   local_score: number;
   global_score: number;
   last_star_ts: number;
   name: string;
-}
-
-export interface CompletionDayLevel {
-  [key: string]: DayDetail;
-}
-
-export interface Stars {
-  [key: "1" | "2"]: DayDetail;
 }
 
 export interface DayDetail {
