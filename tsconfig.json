@@ -17,6 +17,7 @@
     "useUnknownInCatchVariables": true /* Default catch clause variables as 'unknown' instead of 'any'. */,
     "noUnusedParameters": true /* Raise an error when a function parameter isn't read. */,
     "allowUnreachableCode": false /* Disable error reporting for unreachable code. */,
-    "skipLibCheck": true /* Skip type checking all .d.ts files. */
+    "skipLibCheck": true /* Skip type checking all .d.ts files. */,
+    "resolveJsonModule": true
   }
 }
