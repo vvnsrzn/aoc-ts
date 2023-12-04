@@ -9,7 +9,6 @@
     "test": "vitest",
     "ranking": "nodemon -r dotenv/config src/libs/ranking/index.ts -w"
   },
-  "type": "module",
   "author": "Vivian Sarazin (Zenika)",
   "license": "ISC",
   "devDependencies": {
