@@ -16,8 +16,41 @@ async function main() {
  * Testable dans index.spec.ts
  */
 export function solver(data: string[]) {
-  void data;
-  return 1;
+  const games = [];
+  for (const line of data) {
+    const [cardId, game] = line.split(":");
+    const [a, b] = game.split("|");
+
+    const left = a
+      .trim()
+      .split(" ")
+      .filter((v) => v);
+    const right = b
+      .trim()
+      .split(" ")
+      .filter((v) => v);
+
+    const points = left.filter((el) => right.includes(el));
+
+    function toto(points) {
+      if (points.length === 0) return 0;
+      if (points.length === 1) return 1;
+      let res = 1;
+      for (let i = 0; i < points.length - 1; i++) {
+        res = res * 2;
+      }
+      return res;
+    }
+
+    const temp = {
+      cardId: cardId.replace("Card ", ""),
+      left,
+      right,
+      points: toto(points),
+    };
+    games.push(temp);
+  }
+  return games.map((el) => el.points).reduce((prev, curr) => prev + curr);
 }
 
-main();
+// main();
