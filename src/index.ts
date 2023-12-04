@@ -17,36 +17,23 @@ async function main() {
  */
 export function solver(data: string[]) {
   const res = [];
-  const games = [];
   for (const line of data) {
     const [cardIdRaw, gameRaw] = line.split(":");
-    const [a, b] = gameRaw.split("|");
+    const [a, b] = gameRaw.split("|").map(splitter);
     const cardId = Number(cardIdRaw.replace("Card ", ""));
-    const left = splitter(a);
-    const right = splitter(b);
-    const points = left
-      .filter((el) => right.includes(el))
+    const points = a
+      .filter((el) => b.includes(el))
       .map((_, i) => cardId + i + 1);
-
-    const game = { cardId, points };
-    games.push(game);
-  }
-
-  const firstWinningCard = games.find((el) => el.points.length > 0);
-  if (!firstWinningCard) {
-    return;
-  }
-  for (const game of games) {
-    for (let j = firstWinningCard.cardId; j <= game.points.length; j++) {
-      const currentCard = game.cardId + j;
+    for (let j = 1; j <= points.length; j++) {
+      const currentCard = cardId + j;
       for (const element of res) {
-        if (element === game.cardId) {
+        if (element === cardId) {
           res.push(currentCard);
         }
       }
       res.push(currentCard);
     }
-    res.push(game.cardId);
+    res.push(cardId);
   }
   return res.length;
 }
