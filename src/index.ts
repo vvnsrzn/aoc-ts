@@ -16,41 +16,45 @@ async function main() {
  * Testable dans index.spec.ts
  */
 export function solver(data: string[]) {
+  const res = [];
   const games = [];
   for (const line of data) {
-    const [cardId, game] = line.split(":");
-    const [a, b] = game.split("|");
+    const [cardIdRaw, gameRaw] = line.split(":");
+    const [a, b] = gameRaw.split("|");
+    const cardId = Number(cardIdRaw.replace("Card ", ""));
+    const left = splitter(a);
+    const right = splitter(b);
+    const points = left
+      .filter((el) => right.includes(el))
+      .map((_, i) => cardId + i + 1);
 
-    const left = a
-      .trim()
-      .split(" ")
-      .filter((v) => v);
-    const right = b
-      .trim()
-      .split(" ")
-      .filter((v) => v);
-
-    const points = left.filter((el) => right.includes(el));
-
-    function toto(points) {
-      if (points.length === 0) return 0;
-      if (points.length === 1) return 1;
-      let res = 1;
-      for (let i = 0; i < points.length - 1; i++) {
-        res = res * 2;
-      }
-      return res;
-    }
-
-    const temp = {
-      cardId: cardId.replace("Card ", ""),
-      left,
-      right,
-      points: toto(points),
-    };
-    games.push(temp);
+    const game = { cardId, points };
+    games.push(game);
   }
-  return games.map((el) => el.points).reduce((prev, curr) => prev + curr);
+
+  const firstWinningCard = games.find((el) => el.points.length > 0);
+  if (!firstWinningCard) {
+    return;
+  }
+  for (const game of games) {
+    for (let j = firstWinningCard.cardId; j <= game.points.length; j++) {
+      const currentCard = game.cardId + j;
+      for (const element of res) {
+        if (element === game.cardId) {
+          res.push(currentCard);
+        }
+      }
+      res.push(currentCard);
+    }
+    res.push(game.cardId);
+  }
+  return res.length;
 }
 
+function splitter(a: string) {
+  return a
+    .trim()
+    .split(" ")
+    .filter((v) => v);
+}
 // main();
