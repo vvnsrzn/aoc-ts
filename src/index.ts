@@ -1,4 +1,4 @@
-import { fetchAndWriteChallenge, readPuzzle } from "@/libs";
+import { fetchAndWriteChallenge, readPuzzle } from "./libs";
 
 /**
  * Fonction principale

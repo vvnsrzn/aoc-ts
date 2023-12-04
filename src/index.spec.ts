@@ -1,6 +1,6 @@
-import { hxc, specFile } from "@/constants";
-import { solver } from "@/index";
-import { postAnswer, readPuzzle } from "@/libs";
+import { hxc, specFile } from "./constants";
+import { solver } from "./index";
+import { postAnswer, readPuzzle } from "./libs";
 import { describe, expect, test } from "vitest";
 
 describe("AoC", () => {
