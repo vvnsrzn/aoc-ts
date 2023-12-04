@@ -16,7 +16,9 @@ async function main() {
  * Testable dans index.spec.ts
  */
 export function solver(data: string[]) {
-  void data;
+  for (const line of data) {
+    console.log(line);
+  }
   return 1;
 }
 
