@@ -19,21 +19,26 @@ export function solver(data: string[]) {
   const res = [];
   for (const line of data) {
     const [cardIdRaw, gameRaw] = line.split(":");
-    const [a, b] = gameRaw.split("|").map(splitter);
     const cardId = Number(cardIdRaw.replace("Card ", ""));
-    const points = a
-      .filter((el) => b.includes(el))
-      .map((_, i) => cardId + i + 1);
+
+    const [left, right] = gameRaw.split("|").map(splitter);
+    const points = left.reduce((result: number[], el) => {
+      if (right.includes(el)) {
+        result.push(cardId + result.length + 1);
+      }
+      return result;
+    }, []);
+
     for (let j = 1; j <= points.length; j++) {
       const currentCard = cardId + j;
       for (const element of res) {
         if (element === cardId) {
-          res.push(currentCard);
+          res.push(currentCard); // copied cards
         }
       }
-      res.push(currentCard);
+      res.push(currentCard); // winning card
     }
-    res.push(cardId);
+    res.push(cardId); // original card
   }
   return res.length;
 }
