@@ -7,3 +7,4 @@ export const puzzleFile = `${path}.txt`;
 export const instructionsFile = `${path}.md`;
 export const specFile = (i: number) => `${path}-spec-${i}.txt`;
 export const hxc = Boolean(process.env.AOC_HXC) || false;
+export const leaderBoardId = process.env.LEADERBOARD_ID || "";

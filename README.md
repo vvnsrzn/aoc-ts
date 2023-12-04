@@ -49,3 +49,5 @@ Si vous souhaitez faire une autre année, renseigner la variable `AOC_YEAR`, aut
 Pour spécifier le jour, renseigner la variable `AOC_DAY`, autrement ça sera le jour actuel.
 
 Si vous voulez jouer le mode HxC, passer quelque chose dans la variable `AOC_HXC`.
+
+Pour avoir quelques stats avec votre Leaderboard, renseigner `LEADERBOARD_ID` et faîtes `$ pnpm run ranking`.

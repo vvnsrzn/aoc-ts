@@ -1,11 +1,9 @@
-import { cookie, day, year } from "@/constants";
+import { cookie, day, year, leaderBoardId } from "@/constants";
 import type { Ranking } from "./types";
-
-const leaderboardId = "3218107";
 
 (async function getRankings() {
   const res = await fetch(
-    `https://adventofcode.com/${year}/leaderboard/private/view/${leaderboardId}.json`,
+    `https://adventofcode.com/${year}/leaderboard/private/view/${leaderBoardId}.json`,
     {
       headers: { cookie },
     }
