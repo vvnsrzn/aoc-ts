@@ -7,7 +7,7 @@
     "bench": "vitest bench",
     "dev": "nodemon -r dotenv/config src/index.ts -w",
     "test": "vitest",
-    "ranking": "nodemon -r dotenv/config src/ranking/index.ts -w"
+    "ranking": "nodemon -r dotenv/config src/libs/ranking/index.ts -w"
   },
   "author": "Vivian Sarazin (Zenika)",
   "license": "ISC",
