@@ -20,7 +20,6 @@ function splitter(data: string): [hand: string, score: number] {
 
 export function getHand(hand: string): {
   score: number;
-  major: string;
   remaining?: string;
 } {
   const map: Map<string, number> = hand
@@ -32,11 +31,11 @@ export function getHand(hand: string): {
 
   for (const [card, value] of entries) {
     if (value === 5) {
-      return { score: 7, major: card, remaining: "" };
+      return { score: 7, remaining: hand };
     }
     if (value === 4) {
       // carré
-      return { score: 6, major: card, remaining: hand.replaceAll(card, "") };
+      return { score: 6, remaining: hand };
     }
     if (value === 3) {
       let next;
@@ -45,34 +44,31 @@ export function getHand(hand: string): {
         if (next.value && next.value[1] === 2) {
           return {
             score: 5,
-            major: card,
-            remaining: hand.replaceAll(card, ""),
+            remaining: hand,
           }; // full-house
         }
       } while (next.done !== true);
       // brelan
-      return { score: 4, major: card, remaining: hand.replaceAll(card, "") };
+      return { score: 4, remaining: hand };
     }
     if (value === 2) {
       let next;
       do {
         next = entries.next();
         if (next.value && next.value[1] === 2) {
-          const remaining = entries.next().value[0];
           // deux paires
           return {
             score: 3,
-            major: hand.replace(remaining, ""),
-            remaining,
+            remaining: hand,
           };
         }
       } while (next.done !== true);
       // une paire
-      return { score: 2, major: card, remaining: hand.replaceAll(card, "") };
+      return { score: 2, remaining: hand };
     }
   }
   // highest card
-  return { score: 1, major: "0", remaining: hand };
+  return { score: 1, remaining: hand };
 }
 
 /**
@@ -84,49 +80,27 @@ export function gameSorter(data: string[]) {
   return data.toSorted((a, b) => {
     const [handA] = splitter(a);
     const [handB] = splitter(b);
-    const {
-      score: scoreA,
-      remaining: remainingA,
-      major: majorA,
-    } = getHand(handA);
-    const {
-      score: scoreB,
-      remaining: remainingB,
-      major: majorB,
-    } = getHand(handB);
-
-    const newLocalA = cardsSorter(remainingA);
-    const newLocalB = cardsSorter(remainingB);
-    const delta = newLocalA - newLocalB;
-
-    if (scoreA < 3 && scoreB < 3) {
-      console.log(handA, handB);
-    }
-
-    return (
-      scoreA - scoreB ||
-      cardsSorter(majorA) - cardsSorter(majorB) ||
-      cardsSorter(remainingA) - cardsSorter(remainingB)
-    );
+    const { score: scoreA, remaining: remainingA } = getHand(handA);
+    const { score: scoreB, remaining: remainingB } = getHand(handB);
+    const cardsA = cardsSorter(remainingA);
+    const cardsB = cardsSorter(remainingB);
+    return scoreA - scoreB || cardsA - cardsB;
   });
 }
 
 export function solver(data: string[]): number {
   const res = gameSorter(data);
-  const file = [];
-  for (const r of res) {
-    file.push(r.split(" ")[0]);
-  }
-  writeFile("toto.json", JSON.stringify(file), () => {});
-
-  const total = res.reduce((acc, curr, index) => {
+  return res.reduce((acc, curr, index) => {
     const [, score] = splitter(curr);
     return (acc += score * (index + 1));
   }, 0);
-  return total;
 }
 
 const heads = [
+  {
+    key: "J",
+    value: 1,
+  },
   {
     key: "A",
     value: 14,
@@ -138,10 +112,6 @@ const heads = [
   {
     key: "Q",
     value: 12,
-  },
-  {
-    key: "J",
-    value: 11,
   },
   {
     key: "T",
@@ -168,6 +138,5 @@ export function cardsSorter(cards: string | undefined): number {
   for (const card of array) {
     result.push(parseCard(card));
   }
-  result.sort((a, b) => Number(b) - Number(a));
   return parseFloat(result.join(""));
 }
