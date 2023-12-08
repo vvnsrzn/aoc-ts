@@ -1,6 +1,5 @@
 import { cookie, day, puzzleFile, year } from "../../constants";
 import { fetchInstructions, fetchPuzzle } from "../../libs/puzzle/fetch";
-import consola from "consola";
 import { readFileSync } from "fs";
 import { chromium } from "playwright";
 import {
@@ -21,7 +20,6 @@ export async function fetchAndWriteChallenge() {
   }
   createDirectories();
   try {
-    consola.start("Récupération du challenge en cours...");
     const [puzzle, instructions] = await Promise.all([
       fetchPuzzle(),
       fetchInstructions(),

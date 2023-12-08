@@ -5,7 +5,6 @@ import {
   specFile,
   year,
 } from "../../constants";
-import consola from "consola";
 import { existsSync, mkdirSync, writeFile } from "fs";
 import jsdom from "jsdom";
 import { NodeHtmlMarkdown } from "node-html-markdown";
@@ -26,9 +25,7 @@ export function createDirectories() {
 }
 
 export function writePuzzle(data: string) {
-  writeFile(puzzleFile, data, () => {
-    consola.success("Puzzle");
-  });
+  writeFile(puzzleFile, data, () => {});
 }
 
 export function writeInstructions(data: string) {
@@ -39,20 +36,14 @@ export function writeInstructions(data: string) {
   for (const article of articles) {
     instructions += `\n\n\n${NodeHtmlMarkdown.translate(article.innerHTML)}`;
   }
-  writeFile(instructionsFile, instructions, () => {
-    consola.success("Instructions");
-  });
+  writeFile(instructionsFile, instructions, () => {});
 
   //  specs
   const specs = document.getElementsByTagName("code");
   for (let i = 0; i < specs.length; i++) {
     const spec = specs[i];
     if (spec.innerHTML.split("\n").length > 2) {
-      writeFile(specFile(i + 1), spec.innerHTML, () => {
-        consola.success(`Spec ${i + 1}`);
-      });
+      writeFile(specFile(i + 1), spec.innerHTML, () => {});
     }
   }
-
-  consola.box("🎄 Good Luck 🎅");
 }
