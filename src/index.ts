@@ -15,8 +15,8 @@ function descendant(value: number, sequences: number[][]): number {
   let i = sequences.length - 1;
   let counter = value;
   do {
-    const lastElement = sequences[i].slice(-1)[0];
-    counter += lastElement;
+    const firstElement = sequences[i][0];
+    counter = firstElement - counter;
     if (i === 0) {
       return counter;
     }
