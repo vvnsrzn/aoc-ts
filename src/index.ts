@@ -11,12 +11,13 @@ async function main() {
   solver(data);
 }
 
+// main();
+
 function descendant(value: number, sequences: number[][]): number {
   let i = sequences.length - 1;
   let counter = value;
   do {
-    const firstElement = sequences[i][0];
-    counter = firstElement - counter;
+    counter = sequences[i][0] - counter;
     if (i === 0) {
       return counter;
     }
@@ -52,5 +53,3 @@ export function solver(data: string[]) {
   }
   return temp;
 }
-
-// main();
