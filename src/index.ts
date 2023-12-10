@@ -17,13 +17,72 @@ type Coordinate = {
   y: number;
   tile: Tile;
 };
+type Direction = "north" | "south" | "east" | "west";
+type Pipe = {
+  [key in Direction]: boolean;
+} & {
+  label: Tile;
+};
 type Matrix = Map<number, Coordinate[]>;
-function verticalAdjacents(coordinate: Coordinate, coord: Coordinate) {
-  return coordinate.x - coord.x === 0;
+
+const PIPES = [
+  { label: "|", north: true, south: true, east: false, west: false },
+  { label: "-", north: false, south: false, east: true, west: true },
+  { label: "L", north: true, south: false, east: true, west: false },
+  { label: "J", north: true, south: false, east: false, west: true },
+  { label: "7", north: false, south: true, east: false, west: true },
+  { label: "F", north: false, south: true, east: true, west: false },
+] satisfies Pipe[];
+
+function verticalPipes(
+  start: Tile,
+  destination: Tile,
+  from: Direction,
+  to: Direction
+): boolean {
+  const startPipe = PIPES.find((el) => el.label === start)!;
+  const destPipe = PIPES.find((el) => el.label === destination)!;
+  if (start === "S" || destination === "S") return true;
+  if (destPipe[to] && startPipe[to]) return true;
+  if (startPipe[to] && !destPipe[to]) return true;
+  return false;
 }
 
-function horizontalAdjacents(coordinate: Coordinate, coord: Coordinate) {
-  return coordinate.x - coord.x === -1 || coordinate.x - coord.x === 1;
+function horizontalPipes(
+  start: Tile,
+  destination: Tile,
+  from: Direction,
+  to: Direction
+): boolean {
+  const startPipe = PIPES.find((el) => el.label === start)!;
+  const destPipe = PIPES.find((el) => el.label === destination)!;
+  if (start === "S" || destination === "S") return true;
+  if (destPipe[to] && startPipe[to]) return true;
+  if (startPipe[to] && !destPipe[to]) return true;
+  return false;
+}
+
+function verticalAdjacents(
+  coordinate: Coordinate,
+  target: Coordinate,
+  from: Direction,
+  to: Direction
+) {
+  if (coordinate.x - target.x === 0 && coordinate.tile !== ".") {
+    debugger;
+    return verticalPipes(coordinate.tile, target.tile, from, to);
+  }
+}
+
+function horizontalAdjacents(coordinate: Coordinate, target: Coordinate) {
+  if (coordinate.tile !== ".") {
+    if (coordinate.x - target.x === -1) {
+      return horizontalPipes(coordinate.tile, target.tile, "west", "east");
+    }
+    if (coordinate.x - target.x === 1) {
+      return horizontalPipes(coordinate.tile, target.tile, "east", "west");
+    }
+  }
 }
 
 function allowedTile(coord: Coordinate, maxLength: number) {
@@ -39,7 +98,7 @@ export function getAdjacentTiles(coordinate: Coordinate, matrix: Matrix) {
     for (const target of row!) {
       if (
         allowedTile(target, maxLength) &&
-        verticalAdjacents(coordinate, target)
+        verticalAdjacents(coordinate, target, "south", "north")
       ) {
         possibleTiles.push(target);
       }
@@ -63,12 +122,13 @@ export function getAdjacentTiles(coordinate: Coordinate, matrix: Matrix) {
     for (const target of row!) {
       if (
         allowedTile(target, maxLength) &&
-        verticalAdjacents(coordinate, target)
+        verticalAdjacents(coordinate, target, "north", "south")
       ) {
         possibleTiles.push(target);
       }
     }
   }
+  if (coordinate.tile !== ".") debugger;
   return possibleTiles;
 }
 
@@ -85,7 +145,6 @@ export function createAdjencyList(
   }
   return adjencyList;
 }
-// export function getNextPoint(coords: Coordinates, tile: Tile) {}
 
 /**
  * Fonction pour résoudre le puzzle

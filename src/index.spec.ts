@@ -11,13 +11,10 @@ describe("AoC", () => {
   test("Spec #2", async () => {
     const input = readPuzzle(specFile(21));
     expect(solver(input)).toEqual(8);
-
-    if (hxc) {
-      const data = readPuzzle();
-      const candidate = solver(data);
-      if (candidate < 9518) {
-        console.log({ candidate });
-      }
-    }
   }, 333_333_333);
+  test("Challenge", async () => {
+    const data = readPuzzle();
+    const candidate = solver(data);
+    expect(candidate).toEqual(6956);
+  });
 });
