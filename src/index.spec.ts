@@ -6,7 +6,7 @@ import { describe, expect, test } from "vitest";
 describe("AoC", () => {
   test("Spec #1", async () => {
     const input = readPuzzle(specFile(3)); // vérifier l'id de la spec à tester ! (inputs/year)
-    expect(solver(input)).toEqual(-Infinity);
+    expect(solver(input)).toEqual(374);
 
     if (hxc) {
       const data = readPuzzle();
