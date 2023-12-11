@@ -1,9 +1,4 @@
-import {
-  fetchAndWriteChallenge,
-  readPuzzle,
-  selectMatrixColumn,
-  selectMatrixRow,
-} from "./libs";
+import { fetchAndWriteChallenge, readPuzzle, selectMatrixColumn } from "./libs";
 
 /**
  * Fonction principale
@@ -83,20 +78,48 @@ function getAdjacentTiles(coordinate: Coordinate, matrix: Matrix) {
  * Fonction pour résoudre le puzzle
  * Testable dans index.spec.ts
  */
-export function solver(data: string[]) {
-  const expandedUniverse = expandUniverse(data);
+export function solver(universe: string[]) {
+  const { matrix, galaxyMax } = expandUniverse(universe);
 
-  const adjencyList = createAdjencyList(expandedUniverse);
-  const start = [...adjencyList.entries()].find((el) => {
-    // const [key] = el;
-    // return key.label === "1";
-  });
-  if (start) {
-    // dfs(start, "2")
+  console.time("adjencyList");
+  const adjencyList = createAdjencyList(matrix);
+  console.timeEnd("adjencyList");
+
+  function getDistance(startGalaxy: string, endGalaxy: string) {
+    const galaxies = adjencyList.keys();
+
+    const start = findGalaxy(startGalaxy);
+    const end = findGalaxy(endGalaxy);
+
+    if (end && start) {
+      return Math.abs(end.x - start.x) + Math.abs(end.y - start.y);
+    } else {
+      console.error({ end, endGalaxy });
+      return 0;
+    }
+
+    function findGalaxy(galaxy: string) {
+      for (const gal of galaxies) {
+        if (gal.galaxy === galaxy) return gal;
+      }
+    }
   }
-  return 1;
+
+  const num1 = 1;
+  const num2 = galaxyMax;
+  let res = 0;
+  for (let i = num1; i <= num2; i++) {
+    for (let j = i; j <= num2; j++) {
+      if (i !== j) {
+        const temp = getDistance(String(i), String(j));
+        res += Math.abs(temp);
+      }
+    }
+  }
+  return res;
 }
-function expandUniverse(data: string[]): Matrix {
+
+function expandUniverse(data: string[]): { matrix: Matrix; galaxyMax: number } {
   console.time("expandUniverse");
   const matrix: Coordinate[][] = [];
   let galaxyCounter = 0;
@@ -124,11 +147,13 @@ function expandUniverse(data: string[]): Matrix {
     }
     galaxyCounter++;
   }
+
   const expandedUniverse: Coordinate[][] = [];
   galaxyCounter = 0;
   const maxColumns = Math.max(...matrix[0].map((el) => el.x));
   for (let i = 0; i <= maxColumns; i++) {
     const col = selectMatrixColumn(matrix, i);
+    galaxyCounter++;
     expandedUniverse.push(
       col.map((el) => {
         return {
@@ -148,15 +173,15 @@ function expandUniverse(data: string[]): Matrix {
         })
       );
     }
-    galaxyCounter++;
   }
+
   const dataMap: Map<number, Coordinate[]> = new Map();
-  for (let index = 0; index < expandedUniverse.length - 1; index++) {
+  for (let index = 0; index <= expandedUniverse.length + 1; index++) {
     dataMap.set(
       index,
       expandedUniverse.flatMap((el) => el.filter((el) => el.y === index))
     );
   }
   console.timeEnd("expandUniverse");
-  return dataMap;
+  return { matrix: dataMap, galaxyMax: galaxyNumber - 1 };
 }
