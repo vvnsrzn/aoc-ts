@@ -6,5 +6,6 @@ module.exports = {
   root: true,
   rules: {
     "no-debugger": ["warn"],
+    "@typescript-eslint/no-unused-vars": ["warn"],
   },
 };

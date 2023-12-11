@@ -11,6 +11,8 @@ async function main() {
   solver(data);
 }
 
+// main();
+
 type Tile = "|" | "-" | "L" | "J" | "7" | "F" | "." | "S";
 type Coordinate = {
   x: number;
@@ -95,6 +97,8 @@ function createAdjencyList(matrix: Matrix): Map<Coordinate, Coordinate[]> {
       if (coordinate.tile !== ".") {
         const possibleTiles = getAdjacentTiles(coordinate, matrix);
         adjencyList.set(coordinate, possibleTiles);
+      } else {
+        console.log(coordinate);
       }
     }
   }
@@ -145,5 +149,8 @@ export function solver(data: string[]) {
     const [key] = el;
     return key.tile === "S";
   });
-  if (start) return bfs(start, adjencyList).size / 2;
+  if (start) {
+    const loop = bfs(start, adjencyList);
+    return 1;
+  }
 }
