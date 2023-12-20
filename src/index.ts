@@ -47,7 +47,7 @@ export function solver(data: string[]) {
   }
 
   let grandResult = 0;
-  for (const [matrixIndex, matrix] of mainMatrix.entries()) {
+  for (const [, matrix] of mainMatrix.entries()) {
     let horizontalSymetryIndex = 0;
     let verticalSymetryIndex = 0;
     for (let i = 0; i <= matrix.length; i++) {
@@ -72,8 +72,7 @@ export function solver(data: string[]) {
         }
       }
     }
-    const columns = matrix[0].length;
-    for (let j = 0; j <= columns; j++) {
+    for (let j = 0; j <= matrix[0].length; j++) {
       const currentColumn = selectMatrixColumn(matrix, j);
       const nextColumn = selectMatrixColumn(matrix, j + 1);
       if (nextColumn[0] !== undefined) {
