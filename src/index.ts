@@ -10,16 +10,22 @@ async function main() {
   const data = readPuzzle();
   solver(data);
 }
+main();
 
+export function hash(data: string): number {
+  let res = 0;
+  const line = data.split("");
+  for (const item of line) {
+    res += item.charCodeAt(0);
+    res *= 17;
+    res %= 256;
+  }
+  return res;
+}
 /**
  * Fonction pour résoudre le puzzle
  * Testable dans index.spec.ts
  */
-export function solver(data: string[]) {
-  for (const line of data) {
-    console.log(line);
-  }
-  return 1;
+export function solver(data: string[]): number {
+  return data[0].split(",").reduce((acc, curr) => (acc += hash(curr)), 0);
 }
-
-main();
