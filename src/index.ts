@@ -17,42 +17,49 @@ async function main() {
  * Fonction pour résoudre le puzzle
  * Testable dans index.spec.ts
  */
+type Coordinate = { x: number; y: number };
 export function solver(data: string[]) {
-  const map = new Map<number, Set<number>>();
+  const map = new Map<number, Set<Coordinate>>();
   const lastPosition = { x: 0, y: 0 };
   for (const [, line] of data.entries()) {
     const { direction, meters } = parseInstructions(line);
     if (direction === "R") {
       const limit = lastPosition.x + meters;
       const start = lastPosition.x;
-      const values = [];
+      const values: Coordinate[] = [];
       for (let i = start; i <= limit; i++) {
-        values.push(i);
+        values.push({ x: i, y: lastPosition.y });
       }
       if (map.has(lastPosition.y)) {
         const currentValues = map.get(lastPosition.y);
         if (currentValues)
-          map.set(lastPosition.y, new Set([...currentValues, ...values]));
+          map.set(
+            lastPosition.y,
+            new Set([...currentValues, ...values].sort((a, b) => a.x - b.x))
+          );
       } else {
         map.set(lastPosition.y, new Set([...values]));
       }
-      lastPosition.x = Math.max(...values);
+      lastPosition.x = limit;
     }
     if (direction === "L") {
       const limit = lastPosition.x - meters;
       const start = lastPosition.x;
-      const values = [];
+      const values: Coordinate[] = [];
       for (let i = start; i >= limit; i--) {
-        values.push(i);
+        values.push({ x: i, y: lastPosition.y });
       }
       if (map.has(lastPosition.y)) {
         const currentValues = map.get(lastPosition.y);
         if (currentValues)
-          map.set(lastPosition.y, new Set([...currentValues, ...values]));
+          map.set(
+            lastPosition.y,
+            new Set([...currentValues, ...values].sort((a, b) => a.x - b.x))
+          );
       } else {
         map.set(lastPosition.y, new Set([...values]));
       }
-      lastPosition.x = Math.min(...values);
+      lastPosition.x = limit;
     }
     if (direction === "U") {
       const limit = lastPosition.y - meters;
@@ -64,10 +71,14 @@ export function solver(data: string[]) {
           if (currentValues)
             map.set(
               lastPosition.y,
-              new Set([...currentValues, lastPosition.x])
+              new Set(
+                [...currentValues, { x: lastPosition.x, y: i }].sort(
+                  (a, b) => a.x - b.x
+                )
+              )
             );
         } else {
-          map.set(lastPosition.y, new Set([lastPosition.x]));
+          map.set(lastPosition.y, new Set([{ x: lastPosition.x, y: i }]));
         }
       }
     }
@@ -81,19 +92,32 @@ export function solver(data: string[]) {
           if (currentValues)
             map.set(
               lastPosition.y,
-              new Set([...currentValues, lastPosition.x])
+              new Set(
+                [...currentValues, { x: lastPosition.x, y: i }].sort(
+                  (a, b) => a.x - b.x
+                )
+              )
             );
         } else {
-          map.set(lastPosition.y, new Set([lastPosition.x]));
+          map.set(lastPosition.y, new Set([{ x: lastPosition.x, y: i }]));
         }
       }
     }
   }
   let total = 0;
+  // map.forEach((value) => {
+  //   total += Math.max(...value) - Math.min(...value) + 1;
+  // });
+  const draw: string[][] = [];
   map.forEach((value, key) => {
-    console.log(key, value);
-    total += Math.max(...value) - Math.min(...value) + 1;
+    const temp: string[] = [];
+    value.forEach((el) => {
+      console.log(key, el);
+    });
+    total += countItems(temp);
+    draw.push(temp);
   });
+  writeFileSync("toto.json", JSON.stringify(draw));
   return total;
 }
 
@@ -104,4 +128,15 @@ function parseInstructions(line: string): {
 } {
   const [direction, meters] = line.split(" ") as [Direction, string];
   return { direction, meters: Number(meters) };
+}
+
+function countItems(array: string[]) {
+  let count = 0;
+
+  const temp = array.slice(array.indexOf("#"));
+  for (const _ of temp) {
+    count++;
+  }
+
+  return count;
 }
