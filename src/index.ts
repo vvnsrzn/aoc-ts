@@ -26,82 +26,22 @@ export function solver(data: string[]) {
     if (direction === "R") {
       const limit = lastPosition.x + meters;
       const start = lastPosition.x;
-      const values: Coordinate[] = [];
-      for (let i = start; i <= limit; i++) {
-        values.push({ x: i, y: lastPosition.y });
-      }
-      if (map.has(lastPosition.y)) {
-        const currentValues = map.get(lastPosition.y);
-        if (currentValues)
-          map.set(
-            lastPosition.y,
-            new Set([...currentValues, ...values].sort((a, b) => a.x - b.x))
-          );
-      } else {
-        map.set(lastPosition.y, new Set([...values]));
-      }
+
       lastPosition.x = limit;
     }
     if (direction === "L") {
       const limit = lastPosition.x - meters;
       const start = lastPosition.x;
-      const values: Coordinate[] = [];
-      for (let i = start; i >= limit; i--) {
-        values.push({ x: i, y: lastPosition.y });
-      }
-      if (map.has(lastPosition.y)) {
-        const currentValues = map.get(lastPosition.y);
-        if (currentValues)
-          map.set(
-            lastPosition.y,
-            new Set([...currentValues, ...values].sort((a, b) => a.x - b.x))
-          );
-      } else {
-        map.set(lastPosition.y, new Set([...values]));
-      }
+
       lastPosition.x = limit;
     }
     if (direction === "U") {
       const limit = lastPosition.y - meters;
       const start = lastPosition.y;
-      for (let i = start; i >= limit; i--) {
-        lastPosition.y = i;
-        if (map.has(lastPosition.y)) {
-          const currentValues = map.get(lastPosition.y);
-          if (currentValues)
-            map.set(
-              lastPosition.y,
-              new Set(
-                [...currentValues, { x: lastPosition.x, y: i }].sort(
-                  (a, b) => a.x - b.x
-                )
-              )
-            );
-        } else {
-          map.set(lastPosition.y, new Set([{ x: lastPosition.x, y: i }]));
-        }
-      }
     }
     if (direction === "D") {
       const limit = meters + lastPosition.y;
       const start = lastPosition.y;
-      for (let i = start; i <= limit; i++) {
-        lastPosition.y = i;
-        if (map.has(lastPosition.y)) {
-          const currentValues = map.get(lastPosition.y);
-          if (currentValues)
-            map.set(
-              lastPosition.y,
-              new Set(
-                [...currentValues, { x: lastPosition.x, y: i }].sort(
-                  (a, b) => a.x - b.x
-                )
-              )
-            );
-        } else {
-          map.set(lastPosition.y, new Set([{ x: lastPosition.x, y: i }]));
-        }
-      }
     }
   }
   let total = 0;
