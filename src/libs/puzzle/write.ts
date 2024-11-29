@@ -1,14 +1,14 @@
+import consola from "consola";
+import { existsSync, mkdirSync, writeFile } from "fs";
+import jsdom from "jsdom";
+import { NodeHtmlMarkdown } from "node-html-markdown";
 import {
   inputsFolder,
   instructionsFile,
   puzzleFile,
   specFile,
   year,
-} from "../../constants";
-import consola from "consola";
-import { existsSync, mkdirSync, writeFile } from "fs";
-import jsdom from "jsdom";
-import { NodeHtmlMarkdown } from "node-html-markdown";
+} from "../../constants.ts";
 
 function createDirectoryIfNotExists(path: string) {
   if (!existsSync(path)) {

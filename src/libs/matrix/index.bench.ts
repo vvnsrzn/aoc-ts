@@ -1,5 +1,5 @@
 import { describe, bench } from "vitest";
-import { computeMatrixSum, computeMatrixSumBis } from "./index";
+import { computeMatrixSum, computeMatrixSumBis } from "./index.ts";
 
 function generateMatrix(rows: number, cols: number) {
   const matrix: number[][] = [];

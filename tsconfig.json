@@ -1,16 +1,8 @@
 {
-  "ts-node": {
-    "require": ["tsconfig-paths/register"]
-  },
   "compilerOptions": {
-    "target": "es2016" /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */,
-    "module": "commonjs" /* Specify what module code is generated. */,
+    "target": "ESNext" /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */,
+    "module": "NodeNext" /* Specify what module code is generated. */,
     "baseUrl": "src" /* Specify the base directory to resolve non-relative module names. */,
-    "paths": {
-      "@/*": ["*"]
-    },
-    "esModuleInterop": true /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables 'allowSyntheticDefaultImports' for type compatibility. */,
-    "forceConsistentCasingInFileNames": true /* Ensure that casing is correct in imports. */,
     "strict": true /* Enable all strict type-checking options. */,
     "noImplicitAny": true /* Enable error reporting for expressions and declarations with an implied 'any' type. */,
     "strictNullChecks": true /* When type checking, take into account 'null' and 'undefined'. */,
@@ -18,6 +10,8 @@
     "noUnusedParameters": true /* Raise an error when a function parameter isn't read. */,
     "allowUnreachableCode": false /* Disable error reporting for unreachable code. */,
     "skipLibCheck": true /* Skip type checking all .d.ts files. */,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "allowImportingTsExtensions": true, //this works only with below noEmit set to true
+    "noEmit": true,
   }
 }
