@@ -1,5 +1,5 @@
-import { cookie, day, year, leaderBoardId } from "@/constants";
-import type { Ranking } from "./types";
+import { cookie, day, leaderBoardId, year } from "../../constants.ts";
+import type { Ranking } from "./types.ts";
 
 (async function getRankings() {
   const res = await fetch(
@@ -16,6 +16,7 @@ import type { Ranking } from "./types";
     for (const dayLevel of Object.entries(detailsMember.completion_day_level)) {
       const [, details] = dayLevel;
       const keys = Object.keys(details);
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       keys.length === 2 && completed++;
     }
     members.push({ ...detailsMember, completed });

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { computeAverage, computeMedian, computeSum } from ".";
+import { computeAverage, computeMedian, computeSum } from "./index.ts";
 
 describe("*** Math Module ***", () => {
   describe("--- Sum ---", () => {

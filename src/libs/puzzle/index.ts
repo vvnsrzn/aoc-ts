@@ -1,14 +1,14 @@
-import { cookie, day, puzzleFile, year } from "../../constants";
-import { fetchInstructions, fetchPuzzle } from "../../libs/puzzle/fetch";
 import consola from "consola";
 import { readFileSync } from "fs";
 import { chromium } from "playwright";
+import { cookie, day, puzzleFile, year } from "../../constants.ts";
+import { fetchInstructions, fetchPuzzle } from "../../libs/puzzle/fetch.ts";
 import {
   createDirectories,
   isChallengeFetched,
   writeInstructions,
   writePuzzle,
-} from "./write";
+} from "./write.ts";
 
 export function readPuzzle(path = puzzleFile) {
   const file = readFileSync(path, "utf-8");

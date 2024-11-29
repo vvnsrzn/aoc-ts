@@ -1,11 +1,11 @@
-import { hxc, specFile } from "./constants";
-import { solver } from "./index";
-import { postAnswer, readPuzzle } from "./libs";
 import { describe, expect, test } from "vitest";
+import { hxc, specFile } from "./constants.ts";
+import { solver } from "./index.ts";
+import { postAnswer, readPuzzle } from "./libs/puzzle/index.ts";
 
 describe("AoC", () => {
   test("Spec #1", async () => {
-    const input = readPuzzle(specFile(3)); // vérifier l'id de la spec à tester ! (inputs/year)
+    const input = readPuzzle(specFile(1)); // vérifier l'id de la spec à tester ! (inputs/year)
     expect(solver(input)).toEqual(-Infinity);
 
     if (hxc) {

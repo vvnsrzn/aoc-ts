@@ -18,9 +18,9 @@ export interface Member {
   name: string;
 }
 
-export interface CompletionDayLevel {
-  [key: Days[number]?]: DayDetail;
-}
+export type CompletionDayLevel = {
+  [key in Days]: DayDetail;
+};
 
 export interface DayDetail {
   star_index: number;

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { computeMatrixSum, selectMatrixColumn, selectMatrixRow } from "./index";
+import { computeMatrixSum, selectMatrixColumn, selectMatrixRow } from "./index.ts";
 
 describe("*** Matrix Module ***", () => {
   describe("--- Row ---", () => {

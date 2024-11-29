@@ -24,6 +24,10 @@
 
 ## How to?
 
+`$ cp .env.example .env`
+
+Ne pas oublier de copier son fichier d'env
+
 `$ pnpm run dev`
 
 Cette commande va vérifier si le challenge est bien chargé. Dans le cas contraire, elle va télécharger et écrire le puzzle et les instructions dans un dossier `inputs`.
