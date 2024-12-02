@@ -1,3 +1,5 @@
+import { permutation } from "./libs/list/index.ts";
+import { absDifference } from "./libs/math/index.ts";
 import { fetchAndWriteChallenge, readPuzzle } from "./libs/puzzle/index.ts";
 
 /**
@@ -9,35 +11,6 @@ async function main() {
   await fetchAndWriteChallenge();
   const data = readPuzzle();
   solver(data);
-}
-
-/**
- * @function absDifference
- * @param a number
- * @param b number
- * @returns The absolute difference between a and b
- * @example absDifference(1, 2) => 1
- * @example absDifference(2, 1) => 1
- */
-export function absDifference(a: number, b: number) {
-  return Math.abs(a - b);
-}
-
-/**
- * @function permutation
- * @param element number[]
- * @returns The permutation of the element
- * @example permutation([1, 2]) => [[2], [1]]
- * @example permutation([1, 2, 3]) => [[2, 3], [1, 3], [1, 2]]
- */
-export function permutation(element: number[]): number[][] {
-  const result = [];
-  if (element.length === 0) return [[]];
-  for (let i = 0; i < element.length; i++) {
-    const remaining = element.slice(0, i).concat(element.slice(i + 1));
-    result.push(remaining)
-  }
-  return result;
 }
 
 /**
