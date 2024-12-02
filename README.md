@@ -24,6 +24,12 @@
 
 ## How to?
 
+`$ nvm use` ou `$ fnm use`
+
+Ou installer manuellement une version de node supérieure ou égale 22.
+
+Pourquoi cette version ? Tout simplement car cela permet d'utiliser une feature incroyablement utile : [`--experimental-strip-types`](https://nodejs.org/en/learn/typescript/run-natively)
+
 `$ cp .env.example .env`
 
 Ne pas oublier de copier son fichier d'env

@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "bench": "vitest bench",
-    "dev": "node --watch --experimental-strip-types --env-file=.env src/index.ts",
+    "dev": "node --experimental-strip-types --env-file=.env src/index.ts",
     "test": "vitest",
     "ranking": "node --experimental-strip-types src/libs/ranking/index.ts",
     "lint": "eslint"
