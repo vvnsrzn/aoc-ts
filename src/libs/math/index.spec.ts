@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { computeAverage, computeMedian, computeSum } from "./index.ts";
+import { absDifference, computeAverage, computeMedian, computeSum } from "./index.ts";
 
 describe("*** Math Module ***", () => {
   describe("--- Sum ---", () => {
@@ -59,6 +59,17 @@ describe("*** Math Module ***", () => {
       const numbers = [2, 3, 4, 5, 6, 7];
       const res = computeMedian(numbers);
       expect(res).toEqual(4.5);
+    });
+  });
+
+  describe("--- Absolute Difference ---", () => {
+    it.each([
+      [1, 2, 1],
+      [2, 1, 1],
+      [1, 1, 0],
+    ])("Should return %d for %d and %d", (a, b, expected) => {
+      const res = absDifference(a, b);
+      expect(res).toEqual(expected);
     });
   });
 });

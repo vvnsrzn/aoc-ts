@@ -32,3 +32,15 @@ export function computeMedian(numbers: number[]) {
   const middle2 = sortedNumbers[middleLength];
   return (middle1 + middle2) / 2;
 }
+
+/**
+ * @function absDifference
+ * @param a number
+ * @param b number
+ * @returns The absolute difference between a and b
+ * @example absDifference(1, 2) => 1
+ * @example absDifference(2, 1) => 1
+ */
+export function absDifference(a: number, b: number) {
+  return Math.abs(a - b);
+}
