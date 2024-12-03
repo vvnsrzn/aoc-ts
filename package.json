@@ -8,7 +8,7 @@
     "bench": "vitest bench",
     "dev": "node --experimental-strip-types --env-file=.env src/index.ts",
     "test": "vitest",
-    "ranking": "node --experimental-strip-types src/libs/ranking/index.ts",
+    "ranking": "node --experimental-strip-types --env-file=.env src/libs/ranking/index.ts",
     "lint": "eslint"
   },
   "author": "Vivian Sarazin (Hublo)",
