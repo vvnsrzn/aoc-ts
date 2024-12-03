@@ -8,7 +8,7 @@ import { fetchAndWriteChallenge, readPuzzle } from "./libs/puzzle/index.ts";
 async function main() {
   await fetchAndWriteChallenge();
   const data = readPuzzle();
-  solver(data);
+  // solver(data);
 }
 
 /**
@@ -16,10 +16,18 @@ async function main() {
  * Testable dans index.spec.ts
  */
 export function solver(data: string[]) {
-  for (const line of data) {
-    console.log(line);
-  }
-  return 1;
+
+  const string = data[0];
+  const regex = /mul\((\d+,\d+)\)/gm;
+  const array = [...string.matchAll(regex)];
+  const res = array.map(el => el[1])
+    .map(el => el.split(","))
+    .map(el => el.map(Number))
+    .reduce((acc, [a, b]) => acc += a * b, 0)
+
+
+
+  return res;
 }
 
 main();
