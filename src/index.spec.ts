@@ -5,8 +5,8 @@ import { postAnswer, readPuzzle } from "./libs/puzzle/index.ts";
 
 describe("AoC", () => {
   test("Spec #1", async () => {
-    const input = readPuzzle(specFile(1)); // vérifier l'id de la spec à tester ! (inputs/year)
-    expect(solver(input)).toEqual(-Infinity);
+    const input = readPuzzle(specFile(6)); // vérifier l'id de la spec à tester ! (inputs/year)
+    expect(solver(input)).toEqual(18);
 
     if (hxc) {
       const data = readPuzzle();
