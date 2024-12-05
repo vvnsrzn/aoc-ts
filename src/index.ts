@@ -15,24 +15,29 @@ function generateValidCoordinates(x: number, y: number, matrix: Matrix[][]): num
   let result = 0
   const limit = matrix.length;
   const res = [
-    [[x, y], [x + 1, y], [x + 2, y], [x + 3, y]], // right
-    [[x, y], [x - 1, y], [x - 2, y], [x - 3, y]], // left
-    [[x, y], [x, y - 1], [x, y - 2], [x, y - 3]], // top
-    [[x, y], [x, y + 1], [x, y + 2], [x, y + 3]], // bottom
-    [[x, y], [x + 1, y - 1], [x + 2, y - 2], [x + 3, y - 3]], // diagonal top right
-    [[x, y], [x - 1, y + 1], [x - 2, y + 2], [x - 3, y + 3]], // diagonal bottom left
-    [[x, y], [x - 1, y - 1], [x - 2, y - 2], [x - 3, y - 3]], // diagonal top left
-    [[x, y], [x + 1, y + 1], [x + 2, y + 2], [x + 3, y + 3]], // diagonal bottom right
+    [[x - 1, y - 1]], // diagonal top left - M
+    [[x + 1, y - 1]], // diagonal top right - S
+    [[x - 1, y + 1]], // diagonal bottom left - M
+    [[x + 1, y + 1]], // diagonal bottom right - S
   ].filter((line) => {
     return line.every((coordinates) => coordinates[0] >= 0 && coordinates[1] >= 0 && coordinates[0] < limit && coordinates[1] < limit)
   })
 
-  for (const line of res) {
-    const [a, b, c, d] = line;
-    const word = [matrix[a[1]][a[0]], matrix[b[1]][b[0]], matrix[c[1]][c[0]], matrix[d[1]][d[0]]]
-    if (word.join('') === 'XMAS') {
-      result++
+  const michel = res.flat().filter(el => el)
+  if (michel.length === 4) {
+    try {
+      const [a, b, c, d] = michel;
+      const word = [matrix[a[1]][a[0]], matrix[b[1]][b[0]], matrix[c[1]][c[0]], matrix[d[1]][d[0]]].join('')
+      console.log({ word });
+      if (word === 'MSMS' || word === 'SSMM' || word === 'MMSS' || word === 'SSMM' || word === 'SMSM') {
+        result++
+      }
+      console.log({ result });
+      return result
+    } catch (error) {
+      console.log({ error });
     }
+
   }
   return result
 }
@@ -49,8 +54,7 @@ export function solver(data: string[]) {
   }
   for (let x = 0; x < matrix.length; x++) {
     for (let y = 0; y < matrix[x].length; y++) {
-      if (matrix[x][y] === 'X') {
-        console.log('X', x, y);
+      if (matrix[x][y] === 'A') {
         result += generateValidCoordinates(y, x, matrix as Matrix[][]);
       }
     }

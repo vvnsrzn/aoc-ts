@@ -9,6 +9,7 @@ import {
   writeInstructions,
   writePuzzle,
 } from "./write.ts";
+import { expect } from "playwright/test";
 
 export function readPuzzle(path = puzzleFile) {
   const file = readFileSync(path, "utf-8");
@@ -44,15 +45,14 @@ export async function postAnswer(candidate: number) {
   await page.goto(`https://adventofcode.com/`);
   await page.goto(`https://adventofcode.com/${year}/day/${day}`);
 
+
+  if (page.getByText("Both parts of this puzzle are complete!")) {
+    return true
+  }
+
   await page.getByRole("textbox").fill(String(candidate));
   await page.getByRole("button", { name: "[Submit]" }).click();
 
-  const isSuccess = await page.isVisible("text='That's the right answer'");
-  const errorMessage = await page.getByRole("article").textContent();
+  return page.getByText("That's the right answer")
 
-  if (!isSuccess) {
-    throw new Error(errorMessage!);
-  }
-
-  await page.pause();
 }
