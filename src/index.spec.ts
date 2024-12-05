@@ -10,10 +10,10 @@ describe("AoC", () => {
     expect(michel).toEqual(123);
 
     if (hxc) {
-      const data = readPuzzle();
-      const candidate = solver(data);
-      console.log(`Candidate: ${candidate}`);
-      if (candidate > 5708) await postAnswer(candidate);
+      // const data = readPuzzle();
+      // const candidate = solver(data);
+      // console.log(`Candidate: ${candidate}`);
+      // if (candidate > 5708 && candidate < 5906 && candidate !== 5878) await postAnswer(candidate);
     }
   }); // mes chiffres porte-bonheur, à la discrétion du développeur, mais c'est aussi un timeout :)
 });

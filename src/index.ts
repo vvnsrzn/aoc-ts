@@ -16,54 +16,70 @@ async function main() {
  * Testable dans index.spec.ts
  */
 export function solver(data: string[]) {
-  const sequenceInstructions = []
-  const numberSequenceCollection = []
+  const orderInstructions = []
+  const numberSequences = []
   for (const line of data) {
-    if (line.includes('|')) sequenceInstructions.push(line.split('|').map(Number));
-    if (line.includes(',')) numberSequenceCollection.push(line.split(',').map(Number));
+    if (line.includes('|')) orderInstructions.push(line.split('|').map(Number));
+    if (line.includes(',')) numberSequences.push(line.split(',').map(Number));
   }
-
-  const invalidSequencesMap = new Map<number[], number[][]>()
-
-  for (const sequence of numberSequenceCollection) {
-    for (const [leftPage, rightPage] of sequenceInstructions) {
-      for (let index = 0; index < sequence.length; index++) {
-        const page = sequence[index];
-        if (page === leftPage) {
-          const sequenceToCheck = sequence.slice(0, index)
-          if (sequenceToCheck.includes(rightPage)) {
-            if (invalidSequencesMap.has(sequence)) {
-              invalidSequencesMap.get(sequence)?.push([leftPage, rightPage])
-            } else {
-              invalidSequencesMap.set(sequence, [[leftPage, rightPage]])
-            }
-          }
+  /**
+   * 75,97,47,61,53 becomes 97,75,47,61,53. it would print 75 before 97, which violates the rule 97|75.
+   * 61,13,29 becomes 61,29,13. 29|13
+   * 97,13,75,29,47 becomes 97,75,47,29,13.
+   */
+  const sequenceAndRules = new Map<number[], number[][]>()
+  for (let i = 0; i < numberSequences.length; i++) {
+    const sequence = numberSequences[i];
+    for (let j = 0; j < orderInstructions.length; j++) {
+      const rule = orderInstructions[j];
+      const isSequenceValid = isValid(rule, sequence)
+      if (!isSequenceValid) {
+        if (sequenceAndRules.has(sequence)) {
+          sequenceAndRules.get(sequence)?.push(rule)
+        } else {
+          sequenceAndRules.set(sequence, [rule])
         }
       }
     }
   }
 
-  const intermediaire = new Set([]) as Set<number[]>
-  for (const [key, values] of invalidSequencesMap) {
-    for (const [leftPage, rightPage] of values) {
-      for (let index = 0; index < key.length; index++) {
-        const element = key[index]
-        if (element === rightPage) {
-          if (key.indexOf(leftPage) < key.indexOf(rightPage)) {
-            break
-          } else {
-            key.splice(index, 1)
-            const leftPageIndex = key.indexOf(leftPage)
-            key.splice(leftPageIndex + 1, 0, rightPage)
-          }
-        }
-      }
-      intermediaire.add(key)
+  for (const [sequence, rules] of sequenceAndRules) {
+    for (let z = 0; z < rules.length; z++) {
+      const ruleToFix = rules[z];
+      console.log(sequence, ruleToFix)
+      const toto = sortedSequence(ruleToFix, sequence)
+      console.log(toto)
+      console.log('---')
     }
   }
-  console.log({ intermediaire })
-  const result = [...intermediaire].map(el => el[el.length / 2 | 0]).reduce((acc, curr) => acc + curr, 0)
-  return result
 }
 
 main();
+
+function sortedSequence(rule: number[], sequence: number[]): number[] {
+  if (isValid(rule, sequence)) return sequence
+  const [left, right] = rule
+  const leftIndexOf = sequence.indexOf(left)
+  const rightIndexOf = sequence.indexOf(right)
+  console.log({ left, leftIndexOf })
+  console.log({ right, rightIndexOf })
+
+  return sequence
+}
+
+function isValid(rule: number[], sequence: number[]): boolean {
+  const [left, right] = rule
+  for (let i = 0; i < sequence.length; i++) {
+    const element = sequence[i];
+    if (left === element && sequence.includes(right)) {
+      const leftIndexOf = sequence.indexOf(left)
+      const rightIndexOf = sequence.indexOf(right)
+      if (rightIndexOf < leftIndexOf) {
+        return false
+      }
+    }
+  }
+  return true
+}
+
+
