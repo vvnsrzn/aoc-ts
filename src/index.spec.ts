@@ -6,16 +6,13 @@ import { postAnswer, readPuzzle } from "./libs/puzzle/index.ts";
 describe("AoC", () => {
   test("Spec #1", async () => {
     const input = readPuzzle(specFile(6)); // vérifier l'id de la spec à tester ! (inputs/year)
-    expect(solver(input)).toEqual(143);
+    expect(solver(input)).toEqual(123);
 
-    if (hxc) {
+    if (!hxc) {
       const data = readPuzzle();
       const candidate = solver(data);
       console.log(`Candidate: ${candidate}`);
-      if (candidate > 1000) {
-        await postAnswer(candidate);
-      }
-      // await postAnswer(candidate);
+      await postAnswer(candidate);
     }
   }); // mes chiffres porte-bonheur, à la discrétion du développeur, mais c'est aussi un timeout :)
 });
