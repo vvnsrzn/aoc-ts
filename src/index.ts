@@ -45,16 +45,17 @@ export function solver(data: string[]) {
 
   const intermediaire = new Set([]) as Set<number[]>
   for (const [key, values] of invalidSequencesMap) {
-    console.log('---------------------')
     for (const [leftPage, rightPage] of values) {
       for (let index = 0; index < key.length; index++) {
         const element = key[index]
         if (element === rightPage) {
-          console.log({ key, element, leftPage, rightPage })
-          key.splice(index, 1)
-          const leftPageIndex = key.indexOf(leftPage)
-          /** && element is not present to the right of key */;
-          key.splice(leftPageIndex + 1, 0, rightPage)
+          if (key.indexOf(leftPage) < key.indexOf(rightPage)) {
+            break
+          } else {
+            key.splice(index, 1)
+            const leftPageIndex = key.indexOf(leftPage)
+            key.splice(leftPageIndex + 1, 0, rightPage)
+          }
         }
       }
       intermediaire.add(key)
