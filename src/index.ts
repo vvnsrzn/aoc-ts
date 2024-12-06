@@ -17,7 +17,7 @@ async function main() {
  * Fonction pour résoudre le puzzle
  * Testable dans index.spec.ts
  */
-type Tile = "." | "#" | Guard
+export type Tile = "." | "#" | Guard
 type Guard = ">" | "<" | "^" | "v"
 
 function isGuard(pos: Tile): boolean {
@@ -39,25 +39,41 @@ function nextGuard(guard: Guard): Guard {
 
 type Position = { x: number, y: number }
 
-
+export function getObstacle(current: Tile[], pos: Tile, x: number, y: number): Position {
+  let obstacle = { x: NaN, y: NaN };
+  for (const element of current.join('').matchAll(/#/gm)) {
+    if (pos === ">" && element.index > x) {
+      obstacle = { x: element.index, y }
+      break
+    }
+    if (pos === "<" && element.index < x) {
+      obstacle = { x: element.index, y }
+    }
+    if (pos === "^" && element.index < y) {
+      obstacle = { x, y: element.index }
+    }
+    if (pos === "v" && element.index > y) {
+      obstacle = { x, y: element.index }
+      break
+    }
+  }
+  return obstacle
+}
 
 export function solver(data: string[]) {
   function addTiles(start: Position, end: Position): void {
     const { y: yStart, x: xStart } = start
     const { y: yEnd, x: xEnd } = end
+
     if (xStart === xEnd) {
-      let y = absDifference(yStart, yEnd)
-      do {
-        y--
-        res.add(`${xStart}-${y}`)
-      } while (y > 1);
+      const michel = [start, end].toSorted((a, b) => {
+        if (a.y < b.y) return -1
+        if (a.y > b.y) return 1
+        return 0
+      })
+      console.log(michel)
     }
     if (yStart === yEnd) {
-      let x = absDifference(xStart, xEnd)
-      do {
-        x--
-        res.add(`${x}-${yStart}`)
-      } while (x > 1);
     }
   }
   const res: Set<string> = new Set([])
@@ -68,14 +84,16 @@ export function solver(data: string[]) {
     matrix.push(splittedLines)
   }
 
+  let iterator = 0
   for (let y = 0; y < matrix.length; y++) {
     const row = matrix[y];
     for (let x = 0; x < row.length; x++) {
       const pos = row[x];
       if (isGuard(pos)) {
+        if (iterator === 152) debugger
         if (pos === "<" || pos === ">") {
           const currentRow = selectMatrixRow(matrix, y)
-          const obstacle = currentRow.indexOf("#")
+          const obstaclePosition = getObstacle(currentRow, pos, x, y)
 
           const startIdx = pos === "<" ? 0 : x
           const endIdx = pos === '<' ? x : undefined
@@ -83,21 +101,22 @@ export function solver(data: string[]) {
           const isEnd = !frontGuardLine.includes("#")
 
           if (isEnd) { // end
+            debugger
             addTiles({ x, y }, { x: x + frontGuardLine.length, y })
             return res.size + 1
           }
 
-          addTiles({ x, y }, { x: obstacle, y })
+          addTiles({ x, y }, obstaclePosition)
 
-          const offSet = obstacle > x ? -1 : 1
+          const offSet = obstaclePosition.x > x ? -1 : 1
           const nextPos = nextGuard(pos)
           matrix[y][x] = "."
-          matrix[y][obstacle + offSet] = nextPos
+          matrix[y][obstaclePosition.x + offSet] = nextPos
           x = 0
         }
         if (pos === "^" || pos === "v") {
           const currentCol = selectMatrixColumn(matrix, x)
-          const obstacle = currentCol.indexOf("#")
+          const obstaclePosition = getObstacle(currentCol, pos, x, y)
 
           const startIdx = pos === "^" ? 0 : y
           const endIdx = pos === '^' ? y : undefined
@@ -105,18 +124,22 @@ export function solver(data: string[]) {
           const isEnd = !frontGuardLine.includes("#")
 
           if (isEnd) { // end
+            debugger
             addTiles({ x, y }, { x, y: y + frontGuardLine.length })
             return res.size + 1
           }
 
-          addTiles({ y, x }, { y: obstacle, x })
+          addTiles({ y, x }, obstaclePosition)
 
-          const offSet = obstacle > y ? -1 : 1
+          const offSet = obstaclePosition.y > y ? -1 : 1
           const nextPos = nextGuard(pos)
           matrix[y][x] = "."
-          matrix[obstacle + offSet][x] = nextPos
+          matrix[obstaclePosition.y + offSet][x] = nextPos
           y = 0
         }
+        writeFile(`yolo${iterator}.txt`, matrix.join('\n').replaceAll(',', ''), (err => err))
+        iterator++
+        if (iterator > 1000) process.exit(1)
       }
     }
   }
