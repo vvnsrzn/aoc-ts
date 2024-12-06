@@ -79,16 +79,15 @@ export function solver(data: string[]) {
 
           const startIdx = pos === "<" ? 0 : x
           const endIdx = pos === '<' ? x : undefined
-          const frontLine = currentRow.slice(startIdx, endIdx)
-          const front = frontLine.indexOf("#")
+          const frontGuardLine = currentRow.slice(startIdx, endIdx)
+          const isEnd = !frontGuardLine.includes("#")
 
-          if (front === -1) { // end
-            addTiles({ x, y }, { x: x + frontLine.length, y })
+          if (isEnd) { // end
+            addTiles({ x, y }, { x: x + frontGuardLine.length, y })
             return res.size + 1
           }
 
-          const obstacleCoordinates = { x: obstacle, y }
-          addTiles({ y, x }, obstacleCoordinates)
+          addTiles({ x, y }, { x: obstacle, y })
 
           const offSet = obstacle > x ? -1 : 1
           const nextPos = nextGuard(pos)
@@ -102,23 +101,21 @@ export function solver(data: string[]) {
 
           const startIdx = pos === "^" ? 0 : y
           const endIdx = pos === '^' ? y : undefined
-          const frontLine = currentCol.slice(startIdx, endIdx)
-          const front = frontLine.indexOf("#")
+          const frontGuardLine = currentCol.slice(startIdx, endIdx)
+          const isEnd = !frontGuardLine.includes("#")
 
-          if (front === -1) { // end
-            addTiles({ x, y }, { x, y: y + frontLine.length })
+          if (isEnd) { // end
+            addTiles({ x, y }, { x, y: y + frontGuardLine.length })
             return res.size + 1
           }
 
-          const obstacleCoordinates = { y: obstacle, x }
-          addTiles({ y, x }, obstacleCoordinates)
+          addTiles({ y, x }, { y: obstacle, x })
 
           const offSet = obstacle > y ? -1 : 1
           const nextPos = nextGuard(pos)
           matrix[y][x] = "."
           matrix[obstacle + offSet][x] = nextPos
           y = 0
-
         }
       }
     }
