@@ -17,6 +17,16 @@ export function computeSum(numbers: number[]) {
 }
 
 /**
+ * @function computeMul
+ * @param numbers 
+ * @returns The multiplication of the numbers
+ */
+export function computeMul(numbers: number[]) {
+  return numbers.reduce((prev, curr) => prev * curr);
+}
+
+
+/**
  * @function computeMedian
  * @param numbers
  * @returns The median of the numbers
